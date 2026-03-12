@@ -31,6 +31,9 @@ jobs:
           for f in item_book.xml item_cover.xml item_search_result.xml; do
             sed -i 's/android:paddingBottom="150%"/android:paddingBottom="0dp"/g' "$f"
           done
+          for f in fragment_shelf.xml fragment_book.xml fragment_search.xml fragment_settings.xml fragment_note_edit.xml fragment_note_view.xml fragment_cover_picker.xml; do
+            sed -i 's/android:background="@color\/bg"/android:background="@color\/bg"\n    android:fitsSystemWindows="true"/' "$f"
+          done
 
       - name: Install Gradle 8.4
         run: |
@@ -46,17 +49,3 @@ jobs:
         with:
           name: MyLibrary-debug
           path: app/build/outputs/apk/debug/app-debug.apk
-
-          - name: Fix layout XML issues
-        run: |
-          cd app/src/main/res/layout
-          for f in fragment_book.xml fragment_cover_picker.xml fragment_search.xml fragment_settings.xml fragment_shelf.xml item_chapter.xml; do
-            sed -i 's/android:gap="[^"]*"//g' "$f"
-          done
-          for f in item_book.xml item_cover.xml item_search_result.xml; do
-            sed -i 's/android:paddingBottom="150%"/android:paddingBottom="0dp"/g' "$f"
-          done
-          # Fix status bar overlap - add fitsSystemWindows to root layouts
-          for f in fragment_shelf.xml fragment_book.xml fragment_search.xml fragment_settings.xml fragment_note_edit.xml fragment_note_view.xml fragment_cover_picker.xml; do
-            sed -i 's/android:background="@color\/bg"/android:background="@color\/bg"\n    android:fitsSystemWindows="true"/' "$f"
-          done
