@@ -22,6 +22,16 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
+      - name: Fix layout XML issues
+        run: |
+          cd app/src/main/res/layout
+          for f in fragment_book.xml fragment_cover_picker.xml fragment_search.xml fragment_settings.xml fragment_shelf.xml item_chapter.xml; do
+            sed -i 's/android:gap="[^"]*"//g' "$f"
+          done
+          for f in item_book.xml item_cover.xml item_search_result.xml; do
+            sed -i 's/android:paddingBottom="150%"/android:paddingBottom="0dp"/g' "$f"
+          done
+
       - name: Install Gradle 8.4
         run: |
           wget -q https://services.gradle.org/distributions/gradle-8.4-bin.zip
